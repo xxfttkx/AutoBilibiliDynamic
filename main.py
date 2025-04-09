@@ -8,6 +8,12 @@ load_dotenv()  # 自动读取 .env 文件
 SESSDATA = os.getenv("SESSDATA")
 BILI_JCT = os.getenv("BILI_JCT")
 
+if not SESSDATA or not BILI_JCT:
+    print("请检查环境变量 SEESDATA 或 BILI_JCT 是否设置正确")
+    exit(1)
+else:
+    print("环境变量 SEESDATA 和 BILI_JCT 已设置")
+
 # GitHub 上图片的原始链接（Raw）
 img_url = "https://raw.githubusercontent.com/xxfttkx/splatoon_SalmonRun_weapons/main/output.png"
 
