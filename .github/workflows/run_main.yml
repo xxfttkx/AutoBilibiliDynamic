@@ -32,6 +32,9 @@ jobs:
 
       # 运行 Python 脚本
       - name: Run main.py
+        env:
+          SESSDATA: ${{ secrets.SESSDATA }}
+          BILI_JCT: ${{ secrets.BILI_JCT }}
         run: |
           python main.py
       
