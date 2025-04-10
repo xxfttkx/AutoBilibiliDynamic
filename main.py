@@ -76,13 +76,15 @@ if need_update:
         'content': {
             'contents':[
                 {
-                    "raw_text": "早上好",
+                    "raw_text": "",
                     "type": 1,
                     "biz_id": ""
                 }
             ]
         },
-        'pics': [{'img_src':image_url}],
+        'pics': [{'img_src':image_url,
+                  'img_height':1080/2,
+                  'img_width':1920/2}],
     }
     payload = {
         'dyn_req':dyn_req
