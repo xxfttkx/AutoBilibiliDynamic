@@ -47,9 +47,9 @@ headers = {
     'Origin': 'https://t.bilibili.com/',
 }
 
-if not check_login(cookies):
-    print("请检查 .env 中的 SESSDATA 和 BILI_JCT 是否正确和未过期")
-    exit(1)
+# if not check_login(cookies):
+#     print("请检查 .env 中的 SESSDATA 和 BILI_JCT 是否正确和未过期")
+#     exit(1)
 
 # 下载图片为 temp.png
 r = requests.get(img_url)
