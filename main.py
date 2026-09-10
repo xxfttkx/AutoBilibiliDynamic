@@ -3,6 +3,22 @@ import requests
 import hashlib
 from dotenv import load_dotenv
 
+def check_login(cookies):
+    test_url = "https://api.bilibili.com/x/web-interface/nav"
+    resp = requests.get(test_url, cookies=cookies)
+    try:
+        data = resp.json()
+        if data.get("code") == 0 and data.get("data", {}).get("isLogin"):
+            print("✅ 已登录，当前用户昵称：", data["data"].get("uname"))
+            return True
+        else:
+            print("❌ 未登录，cookie 可能已过期")
+            return False
+    except Exception as e:
+        print("❌ 登录检查失败：", e)
+        return False
+
+
 load_dotenv()  # 自动读取 .env 文件
 
 SESSDATA = os.getenv("SESSDATA")
@@ -30,6 +46,10 @@ headers = {
     'Referer': 'https://t.bilibili.com/',
     'Origin': 'https://t.bilibili.com/',
 }
+
+if not check_login(cookies):
+    print("请检查 .env 中的 SESSDATA 和 BILI_JCT 是否正确和未过期")
+    exit(1)
 
 # 下载图片为 temp.png
 r = requests.get(img_url)
@@ -66,7 +86,14 @@ if need_update:
     upload_resp = requests.post(upload_url, headers=headers, cookies=cookies, files=files, data=data)
     print(upload_resp.status_code)
     print(upload_resp.text)  # 打印原始响应内容
-    image_url = upload_resp.json()['data']['image_url'] 
+    resp_json = upload_resp.json()
+    print("响应 JSON:", resp_json)
+
+    if 'data' not in resp_json:
+        print("上传失败，未登录或权限不足，请检查 SESSDATA 和 BILI_JCT 是否有效")
+        exit(1)
+
+    image_url = resp_json['data']['image_url']
     print("上传成功，图像 URL:", image_url)
 
     # Step 2: 发布动态

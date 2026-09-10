@@ -4,14 +4,14 @@ on:
   workflow_dispatch:
   schedule:
     # 使用 Cron 表达式设置每 8 小时运行一次
-    - cron: "1 */8 * * *"  # 每 8 小时运行一次
+    - cron: "1 */8 * * *" # 每 8 小时运行一次
 
 permissions:
   contents: write
 
 jobs:
   run-script:
-    runs-on: ubuntu-latest  # 使用最新的 Ubuntu 环境
+    runs-on: ubuntu-latest # 使用最新的 Ubuntu 环境
 
     steps:
       # 检出代码库
@@ -22,7 +22,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.x"  # 使用 Python 3.x
+          python-version: "3.x" # 使用 Python 3.x
 
       # 安装 Python 依赖
       - name: Install Python dependencies
@@ -37,12 +37,14 @@ jobs:
           BILI_JCT: ${{ secrets.BILI_JCT }}
         run: |
           python main.py
-      
+
       # 自动添加和提交更改
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
         with:
-          add: '.' # 添加所有更改
+          add: "." # 添加所有更改
           message: "Automated changes by GitHub Actions" # 提交信息
+          author_name: github-actions[bot] # 以 GitHub Actions bot 身份提交，而非仓库 owner
+          author_email: 41898282+github-actions[bot]@users.noreply.github.com
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # 使用 GitHub 提供的默认 token
